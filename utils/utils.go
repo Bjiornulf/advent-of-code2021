@@ -36,7 +36,7 @@ func ReadLines(filename string) []string {
 	return result;
 }
 
-func Filter(values []string, cond func(string) bool) []string {
+func StrFilter(values []string, cond func(string) bool) []string {
 	res := []string{}
 	for _, val := range values {
 		if cond(val) {

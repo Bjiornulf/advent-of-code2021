@@ -8,12 +8,17 @@ import (
 
 func main() {
 	fmt.Println("day3")
-	lines := utils.ReadLines("input");
+	puzzle1()
+	puzzle2()
+}
+
+func puzzle1() {
+	lines := utils.ReadLines("input")
 	comm := make([]int, len(lines[0]))
 	for i := range lines[0] {
-		comm[i] = countOnesAtPos(lines, i);
+		comm[i] = countOnesAtPos(lines, i)
 	}
-	gamma, epsilon := "", "";
+	gamma, epsilon := "", ""
 	for _, val := range comm {
 		if 2*val >= len(lines) {
 			gamma += "1"
@@ -21,40 +26,48 @@ func main() {
 		} else {
 			gamma += "0"
 			epsilon += "1"
-		}	
+		}
 	}
-	g, _ := strconv.ParseInt(gamma, 2, 0);
-	e, _ := strconv.ParseInt(epsilon, 2, 0);
-	fmt.Printf("puzzle1: %v\n", e *g );
-	oxy := lines;
-	co := lines;
+	g, _ := strconv.ParseInt(gamma, 2, 0)
+	e, _ := strconv.ParseInt(epsilon, 2, 0)
+	fmt.Printf("puzzle1: %v\n", e*g)
+}
+
+func puzzle2() {
+	lines := utils.ReadLines("input")
+	oxy := lines
+	co := lines
 	for i1 := 0; i1 < len(lines[0]) && len(oxy) > 1; i1++ {
-		ones := countOnesAtPos(oxy, i1);
-		if (ones >= len(oxy) - ones) {
-			oxy = utils.Filter(oxy, func(val string) bool {
-				return val[i1] == '1'})
+		ones := countOnesAtPos(oxy, i1)
+		if 2*ones >= len(oxy) {
+			oxy = utils.StrFilter(oxy, func(val string) bool {
+				return val[i1] == '1'
+			})
 		} else {
-			oxy = utils.Filter(oxy, func(val string) bool {
-				return val[i1] == '0'})
-		}	
-	}	
+			oxy = utils.StrFilter(oxy, func(val string) bool {
+				return val[i1] == '0'
+			})
+		}
+	}
 	for i1 := 0; i1 < len(lines[0]) && len(co) > 1; i1++ {
 		ones := countOnesAtPos(co, i1)
-		if (ones >= len(co) - ones) {
-			co = utils.Filter(co, func(val string) bool {
-				return val[i1] == '0'})
+		if 2*ones >= len(co) {
+			co = utils.StrFilter(co, func(val string) bool {
+				return val[i1] == '0'
+			})
 		} else {
-			co = utils.Filter(co, func(val string) bool {
-				return val[i1] == '1'})
+			co = utils.StrFilter(co, func(val string) bool {
+				return val[i1] == '1'
+			})
 		}
-	}	
-	o, _ := strconv.ParseInt(oxy[0], 2, 0);
-	c, _ := strconv.ParseInt(co[0], 2, 0);
-	fmt.Printf("puzzle2: %v\n", o *c );
+	}
+	o, _ := strconv.ParseInt(oxy[0], 2, 0)
+	c, _ := strconv.ParseInt(co[0], 2, 0)
+	fmt.Printf("puzzle2: %v\n", o*c)
 }
 
 func countOnesAtPos(values []string, position int) int {
-	count := 0;
+	count := 0
 	for _, val := range values {
 		if val[position] == '1' {
 			count++
