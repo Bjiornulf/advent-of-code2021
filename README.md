@@ -11,3 +11,6 @@ Day 1 was easy. I had a bit of trouble finding my way arround go modules and pac
 Day 2 wasn't complicated either. I was the first one of my class to solve the problem, though I wasn't nearly fast enough to make it to the global leaderboard.
 It was also an opportunity to benchmark `fmt.Sscanf` vs `stings.SplitN` + `strconv.Atoi`. The latter combination ended up being significantly faster (~10x)
 and used fewer resources.
+
+### Day 3
+Day 3 was a bit harder, because I didn't know the language quiet that good. I knew how to solve the problme since the beginning, but it took me a bit more time. I also faced problems because I didn't fully read the problem in the first place, and some corner cases made the difference. In trying to go faster, I ended up going slower
