@@ -23,7 +23,6 @@ func main() {
 			epsilon += "1"
 		}	
 	}
-	fmt.Println(comm);
 	g, _ := strconv.ParseInt(gamma, 2, 0);
 	e, _ := strconv.ParseInt(epsilon, 2, 0);
 	fmt.Printf("puzzle1: %v\n", e *g );
