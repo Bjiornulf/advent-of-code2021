@@ -13,65 +13,64 @@ func main() {
 }
 
 func puzzle1() {
-	lines := utils.ReadLines("input")
-	comm := make([]int, len(lines[0]))
+	var lines []string = utils.ReadLines("input")
+	var gamma, epsilon int
 	for i := range lines[0] {
-		comm[i] = countOnesAtPos(lines, i)
-	}
-	gamma, epsilon := "", ""
-	for _, val := range comm {
-		if 2*val >= len(lines) {
-			gamma += "1"
-			epsilon += "0"
+		// calculating binary representation value on the fly
+		// using a0a1a2a3... = (...(((a0 * b) + a1 * b) + a2 * b)...) where b is the base of a0a1...
+		gamma *= 2
+		epsilon *= 2
+		if 2*countOnesAtPos(lines, i) >= len(lines) { // majority of 1s at position i
+			gamma++
 		} else {
-			gamma += "0"
-			epsilon += "1"
+			epsilon++
 		}
 	}
-	g, _ := strconv.ParseInt(gamma, 2, 0)
-	e, _ := strconv.ParseInt(epsilon, 2, 0)
-	fmt.Printf("puzzle1: %v\n", e*g)
+	fmt.Printf("puzzle1: %v\n", gamma * epsilon)
 }
 
 func puzzle2() {
-	lines := utils.ReadLines("input")
-	oxy := lines
-	co := lines
-	for i1 := 0; i1 < len(lines[0]) && len(oxy) > 1; i1++ {
-		ones := countOnesAtPos(oxy, i1)
-		if 2*ones >= len(oxy) {
-			oxy = utils.StrFilter(oxy, func(val string) bool {
-				return val[i1] == '1'
+	var lines = utils.ReadLines("input")
+	var oxygen, co2 []string = lines, lines // copying lines; oxygen, co2 and lines are independant
+	for i := 0; i < len(lines[0]) && len(oxygen) > 1; i++ {
+		ones := countOnesAtPos(oxygen, i)
+		// filtering the strings. If in the list, most strings have a "1" at position i,
+		// we only want to keep the strings that have "1" at position i
+		if 2*ones >= len(oxygen) {
+			oxygen = utils.StrFilter(oxygen, func(val string) bool {
+				return val[i] == '1'
 			})
 		} else {
-			oxy = utils.StrFilter(oxy, func(val string) bool {
-				return val[i1] == '0'
+			oxygen = utils.StrFilter(oxygen, func(val string) bool {
+				return val[i] == '0'
 			})
 		}
 	}
-	for i1 := 0; i1 < len(lines[0]) && len(co) > 1; i1++ {
-		ones := countOnesAtPos(co, i1)
-		if 2*ones >= len(co) {
-			co = utils.StrFilter(co, func(val string) bool {
-				return val[i1] == '0'
+	for i := 0; i < len(lines[0]) && len(co2) > 1; i++ {
+		ones := countOnesAtPos(co2, i)
+		// filtering the strings. If in the list, most strings have a "1" at position i,
+		// we only want to keep the strings that have "0" at position i
+		if 2*ones >= len(co2) {
+			co2 = utils.StrFilter(co2, func(val string) bool {
+				return val[i] == '0'
 			})
 		} else {
-			co = utils.StrFilter(co, func(val string) bool {
-				return val[i1] == '1'
+			co2 = utils.StrFilter(co2, func(val string) bool {
+				return val[i] == '1'
 			})
 		}
 	}
-	o, _ := strconv.ParseInt(oxy[0], 2, 0)
-	c, _ := strconv.ParseInt(co[0], 2, 0)
-	fmt.Printf("puzzle2: %v\n", o*c)
+	oxygenValue, _ := strconv.ParseInt(oxygen[0], 2, 0)
+	co2Value, _ := strconv.ParseInt(co2[0], 2, 0)
+	fmt.Printf("puzzle2: %v\n", oxygenValue * co2Value)
 }
 
-func countOnesAtPos(values []string, position int) int {
-	count := 0
+// Counts the number of "1" at position pos in the array of strings
+func countOnesAtPos(values []string, pos int) (count int) {
 	for _, val := range values {
-		if val[position] == '1' {
+		if pos < len(val) && val[pos] == '1' {
 			count++
 		}
 	}
-	return count
+	return
 }
