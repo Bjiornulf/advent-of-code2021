@@ -7,4 +7,5 @@ fi
 mkdir "$dir_name"
 cd $dir_name
 printf "package main\n\nimport (\n\t\"fmt\"\n\t\"aoc2021/utils\"\n)\n\nfunc main() {\n\tfmt.Println(\"$dir_name\")\n}" > $dir_name.go
+touch input
 cd ..
