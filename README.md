@@ -14,3 +14,6 @@ and used fewer resources.
 
 ### Day 3
 Day 3 was a bit harder, because I didn't know the language quiet that good. I knew how to solve the problme since the beginning, but it took me a bit more time. I also faced problems because I didn't fully read the problem in the first place, and some corner cases made the difference. In trying to go faster, I ended up going slower
+
+### Day 5
+Day 5 took me longer than the previous days. The idea was simpler, but I could get lost in the indices. Moreover, it was very easy to produce long and unreadable code, which required some time after finding the solution to clean up.
