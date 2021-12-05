@@ -7,11 +7,6 @@ import (
 	"strings"
 )
 
-func main() {
-	fmt.Println("day4")
-	puzzle1()
-}
-
 type cell struct {
 	val   int
 	drawn bool
@@ -19,7 +14,8 @@ type cell struct {
 
 type grid [5][5]cell
 
-func puzzle1() {
+func main() {
+	fmt.Println("day4")
 	input := utils.ReadLines("input")
 	var numbers []int = make([]int, len(strings.Split(input[0], ",")))
 	var bingoGrid *grid = new(grid)
@@ -40,7 +36,7 @@ func puzzle1() {
 			bingo = append(bingo, *bingoGrid)
 			bingoGrid = new(grid)
 		} else {
-			fill_grid(input[i], row, bingoGrid)
+			fillGrid(input[i], row, bingoGrid)
 			row++
 		}
 	}
@@ -53,11 +49,11 @@ func puzzle1() {
 	var won []bool = make([]bool, len(bingo)) // each grid only wins once, thus we need to keep track of all the grids which have previously won
 	for _, calledNum = range numbers {
 		for i := range bingo {
-			mark_grid(calledNum, &bingo[i])
-			if !won[i] && validate_grid(&bingo[i]) {
+			markGrid(calledNum, &bingo[i])
+			if !won[i] && validateGrid(&bingo[i]) {
 				winnersFound++
 				won[i] = true
-				lastWinnerValue = grid_value(&bingo[i])
+				lastWinnerValue = gridValue(&bingo[i])
 				lastWinnningCalledNum = calledNum
 				if !firstWinnerFound {
 					firstWinnerFound = true
@@ -69,7 +65,7 @@ func puzzle1() {
 	fmt.Println("Puzzle2:", lastWinnerValue*lastWinnningCalledNum)
 }
 
-func grid_value(grid *grid) int {
+func gridValue(grid *grid) int {
 	var sum int
 	for i := 0; i < 5; i++ {
 		for j := 0; j < 5; j++ {
@@ -81,7 +77,7 @@ func grid_value(grid *grid) int {
 	return sum
 }
 
-func mark_grid(number int, grid *grid) {
+func markGrid(number int, grid *grid) {
 	for r := 0; r < 5; r++ {
 		for c := 0; c < 5; c++ {
 			if (*grid)[r][c].val == number {
@@ -91,7 +87,7 @@ func mark_grid(number int, grid *grid) {
 	}
 }
 
-func validate_grid(grid *grid) bool {
+func validateGrid(grid *grid) bool {
 	for r := 0; r < 5; r++ {
 		validateRow := true
 		for c := 0; c < 5; c++ {
@@ -113,7 +109,7 @@ func validate_grid(grid *grid) bool {
 	return false
 }
 
-func fill_grid(str string, row int, grid *grid) {
+func fillGrid(str string, row int, grid *grid) {
 	for pos, val := range strings.Fields(str) {
 		num, err := strconv.Atoi(val)
 		if err != nil {
