@@ -1,10 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"aoc2021/utils"
-	"strings"
+	"fmt"
 	"strconv"
+	"strings"
 )
 
 func main() {
@@ -13,64 +13,60 @@ func main() {
 }
 
 type cell struct {
-	val int
+	val   int
 	drawn bool
 }
 
 type grid [5][5]cell
 
 func puzzle1() {
-	lines := utils.ReadLines("input")
-	var inputs []int = []int{}
+	input := utils.ReadLines("input")
+	var numbers []int = make([]int, len(strings.Split(input[0], ",")))
 	var bingoGrid *grid = new(grid)
 	var bingo []grid = make([]grid, 0)
 	// getting the numbers in the order they will be drawn
-	for _, input := range strings.Split(lines[0], ",") {
-		in, err := strconv.Atoi(input)
-		if (err != nil) {
+	for i, number := range strings.Split(input[0], ",") {
+		intNumber, err := strconv.Atoi(number)
+		if err != nil {
 			panic(err)
 		}
-		inputs = append(inputs, in)
+		numbers[i] = intNumber
 	}
 	row := 0
-	for i := 2; i < len(lines); i++ {
-		if (lines[i] == "") {
+	// filling the bingo grids and creating the bingo array
+	for i := 2; i < len(input); i++ {
+		if input[i] == "" {
 			row = 0
 			bingo = append(bingo, *bingoGrid)
 			bingoGrid = new(grid)
 		} else {
-			fill_grid(lines[i], row, bingoGrid)
+			fill_grid(input[i], row, bingoGrid)
 			row++
 		}
 	}
+	// last bingo grid is not followed by an empty line, thus we need to treat it separately
 	bingo = append(bingo, *bingoGrid)
-	// fmt.Println(bingo)
-	foundWinner := false
-	var calledNum, lastWinner, lastWinnningCalledNum, winnersFound, lastWinnerValue int
-	lastWinnerValue = 0
-	_ = lastWinner
-	var won []bool = make([]bool, len(bingo))
-	for _, calledNum = range inputs {
-		max := 0
+
+	// finding the winners of the first and second round
+	firstWinnerFound := false
+	var calledNum, lastWinnningCalledNum, winnersFound, lastWinnerValue int
+	var won []bool = make([]bool, len(bingo)) // each grid only wins once, thus we need to keep track of all the grids which have previously won
+	for _, calledNum = range numbers {
 		for i := range bingo {
 			mark_grid(calledNum, &bingo[i])
 			if !won[i] && validate_grid(&bingo[i]) {
 				winnersFound++
-				foundWinner = true
 				won[i] = true
-				lastWinner = i
 				lastWinnerValue = grid_value(&bingo[i])
 				lastWinnningCalledNum = calledNum
-				if (max < calledNum * grid_value(&bingo[i])) {
-					max = calledNum * grid_value(&bingo[i])
+				if !firstWinnerFound {
+					firstWinnerFound = true
+					fmt.Println("Puzzle1:", lastWinnerValue*lastWinnningCalledNum)
 				}
 			}
 		}
-		if foundWinner && winnersFound == 1 {
-			fmt.Printf("Puzzle1: %v\n", max)
-		}
 	}
-	fmt.Printf("Puzzle2: %v\n", lastWinnerValue * lastWinnningCalledNum)
+	fmt.Println("Puzzle2:", lastWinnerValue*lastWinnningCalledNum)
 }
 
 func grid_value(grid *grid) int {
@@ -97,7 +93,7 @@ func mark_grid(number int, grid *grid) {
 
 func validate_grid(grid *grid) bool {
 	for r := 0; r < 5; r++ {
-		validateRow := true;
+		validateRow := true
 		for c := 0; c < 5; c++ {
 			validateRow = validateRow && (*grid)[r][c].drawn
 		}
@@ -106,7 +102,7 @@ func validate_grid(grid *grid) bool {
 		}
 	}
 	for c := 0; c < 5; c++ {
-		validateRow := true;
+		validateRow := true
 		for r := 0; r < 5; r++ {
 			validateRow = validateRow && (*grid)[r][c].drawn
 		}
@@ -120,10 +116,10 @@ func validate_grid(grid *grid) bool {
 func fill_grid(str string, row int, grid *grid) {
 	for pos, val := range strings.Fields(str) {
 		num, err := strconv.Atoi(val)
-		if (err != nil) {
+		if err != nil {
 			panic(err)
 		}
-		(*grid)[row][pos].val = num;
-		(*grid)[row][pos].drawn = false;
+		(*grid)[row][pos].val = num
+		(*grid)[row][pos].drawn = false
 	}
 }
