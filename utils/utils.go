@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"strings"
 )
 
 func ReadInts(filename string) []int {
@@ -40,6 +41,16 @@ func StrFilter(values []string, cond func(string) bool) []string {
 		if cond(val) {
 			res = append(res, val)
 		}
+	}
+	return res
+}
+
+func ReadIntsList(str string, sep string) []int {
+	split := strings.Split(str, sep)
+	res := make([]int, len(split))
+	for i, number := range split {
+		convNumber, _ := strconv.Atoi(number)
+		res[i] = convNumber
 	}
 	return res
 }
