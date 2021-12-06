@@ -20,3 +20,6 @@ Simple, but hard to make readable code. The code got pretty long very quickly, a
 
 ### Day 5
 Day 5 took me longer than the previous days. The idea was simpler, but I could get lost in the indices. Moreover, it was very easy to produce long and unreadable code, which required some time after finding the solution to clean up.
+
+### Day 6
+The first part could be trivialy solved without thinking and just implementing the problem the way it was presented. The second part required a bit more thinking as the array would grow exponentially, and eventualy lead to a crash. The result is a much more elegant solution.
