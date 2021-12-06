@@ -8,18 +8,17 @@ import (
 )
 
 const (
-	days int = 80
-	days2 	 = 256
+	days	int	= 80
+	days2		= 256
 )
 func main() {
 	fmt.Println("day6")
+	lantersFishes := importData()
 	/* ---------- Puzzle 1 ---------- */
-	lantersFishes1 := importData();
-	fmt.Println("Puzzle1:", sum(simulate(lantersFishes1, days)))
+	fmt.Println("Puzzle1:", sum(simulate(lantersFishes, days)))
 
 	/* ---------- Puzzle 2 ---------- */
-	lantersFishes2 := importData();
-	fmt.Println("Puzzle2:", sum(simulate(lantersFishes2, days2)))
+	fmt.Println("Puzzle2:", sum(simulate(lantersFishes, days2)))
 }
 
 // sum of int array
@@ -35,31 +34,33 @@ func sum(a []int) int {
 func importData() []int {
 	line := utils.ReadLines("input")
 	numbers := strings.Split(line[0], ",")
-	fishes := make([]int, len(numbers))
+	state := make([]int, len(numbers))
 	// fill array
-	for i := range fishes {
+	for i := range state {
 		fish, err := strconv.Atoi(numbers[i])
 		if (err != nil) {
 			panic(err)
 		}
-		fishes[fish]++
+		state[fish]++
 	}
-	return fishes
+	return state
 }
 
 
 // given an array with the number of fishes in each state. ARRAY MUST BE LENGTH 9
 // simulates the evolution of the population
-// returns an array of the number of fishes at each state
-func simulate(fishes []int, days int) []int {
+// returns an array of the number of fishes at each state, does not change the first array
+func simulate(state []int, days int) []int {
+	res := make([]int, 9)
+	copy(res, state) // avoid changing initial array
 	for i := 0; i < days; i++ {
-		fishes0 := fishes[0]
+		day0 := res[0]
 		for j := 1; j < 9; j++ {
-			fishes[j-1] = fishes[j]
+			res[j-1] = res[j]
 		}
-		fishes[8] = fishes0
-		fishes[6] += fishes0
+		res[8] = day0
+		res[6] += day0
 		
 	}
-	return fishes
+	return res
 }
