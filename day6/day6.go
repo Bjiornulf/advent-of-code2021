@@ -3,14 +3,15 @@ package main
 import (
 	"aoc2021/utils"
 	"fmt"
-	"strings"
 	"strconv"
+	"strings"
 )
 
 const (
-	days	int	= 80
-	days2		= 256
+	days  int = 80
+	days2     = 256
 )
+
 func main() {
 	fmt.Println("day6")
 	lantersFishes := importData()
@@ -25,7 +26,7 @@ func main() {
 func sum(a []int) int {
 	var sum int
 	for _, i := range a {
-		sum+=i
+		sum += i
 	}
 	return sum
 }
@@ -38,14 +39,13 @@ func importData() []int {
 	// fill array
 	for i := range state {
 		fish, err := strconv.Atoi(numbers[i])
-		if (err != nil) {
+		if err != nil {
 			panic(err)
 		}
 		state[fish]++
 	}
 	return state
 }
-
 
 // given an array with the number of fishes in each state. ARRAY MUST BE LENGTH 9
 // simulates the evolution of the population
@@ -60,7 +60,7 @@ func simulate(state []int, days int) []int {
 		}
 		res[8] = day0
 		res[6] += day0
-		
+
 	}
 	return res
 }
