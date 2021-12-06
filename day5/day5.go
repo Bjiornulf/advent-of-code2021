@@ -76,7 +76,7 @@ func intCmp(a int, b int) int {
 
 // creates an array with the points a line crosses
 func enumPositions(l line) (x []int, y []int) {
-	size := max(abs(l.x1-l.x2), abs(l.y1-l.y2))
+	size := max(abs(l.x1-l.x2), abs(l.y1-l.y2)) // number of points
 	x = make([]int, size+1)
 	y = make([]int, size+1)
 	xIncr, yIncr := intCmp(l.x2, l.x1), intCmp(l.y2, l.y1)
@@ -103,26 +103,16 @@ func countMatrix(matrix [][]int, filter func(int) bool) int {
 // import the data for Day 5
 func importData(lines []string) []line {
 	res := make([]line, len(lines))
+	var x1, x2, y1, y2 int
+	var fields, start, end []string
 	for i, l := range lines {
-		fields := strings.Fields(l) // x1,y1 -> x2,y2 = "x1,y1" "->" "x2,y2"
-		start := strings.SplitN(fields[0], ",", 2)
-		end := strings.SplitN(fields[2], ",", 2)
-		x1, err := strconv.Atoi(start[0])
-		if err != nil {
-			panic(err)
-		}
-		y1, err := strconv.Atoi(start[1])
-		if err != nil {
-			panic(err)
-		}
-		x2, err := strconv.Atoi(end[0])
-		if err != nil {
-			panic(err)
-		}
-		y2, err := strconv.Atoi(end[1])
-		if err != nil {
-			panic(err)
-		}
+		fields = strings.Fields(l) // x1,y1 -> x2,y2 = "x1,y1" "->" "x2,y2"
+		start = strings.SplitN(fields[0], ",", 2)
+		end = strings.SplitN(fields[2], ",", 2)
+		x1, _ = strconv.Atoi(start[0])
+		y1, _ = strconv.Atoi(start[1])
+		x2, _ = strconv.Atoi(end[0])
+		y2, _ = strconv.Atoi(end[1])
 		res[i] = line{x1: x1, y1: y1, x2: x2, y2: y2}
 	}
 	return res
@@ -143,18 +133,8 @@ func filterLines(lines []line, filter func(line) bool) []line {
 func maxCoords(lines []line) (int, int) {
 	var xmax, ymax int
 	for _, l := range lines {
-		if l.x1 >= xmax {
-			xmax = l.x1
-		}
-		if l.x2 >= xmax {
-			xmax = l.x2
-		}
-		if l.y1 >= ymax {
-			ymax = l.y1
-		}
-		if l.y2 >= ymax {
-			ymax = l.y2
-		}
+		xmax = max(xmax, max(l.x1, l.x2))
+		ymax = max(ymax, max(l.y1, l.y2))
 	}
 	return xmax, ymax
 }
