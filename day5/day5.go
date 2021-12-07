@@ -27,7 +27,7 @@ func main() {
 	/* ----------- Puzzle 2 ---------- */
 	puzzle2Lines := filterLines(lines, func(l line) bool {
 		// only keep vertical, horrizontal or 45 degree lines
-		return (l.x1 == l.x2 || l.y1 == l.y2 || abs(l.x1-l.x2) == abs(l.y1-l.y2))
+		return (l.x1 == l.x2 || l.y1 == l.y2 || utils.IntAbs(l.x1-l.x2) == utils.IntAbs(l.y1-l.y2))
 	})
 	xmax2, ymax2 := maxCoords(puzzle2Lines)
 	puzzle2Grid := initGrid(xmax2+1, ymax2+1)
@@ -56,13 +56,6 @@ func fillGrid(grid *[][]int, lines []line) {
 	}
 }
 
-func max(a int, b int) int {
-	if a < b {
-		return b
-	} else {
-		return a
-	}
-}
 
 // return 1 if a > b; 0 if a == b; -1 if a < b
 func intCmp(a int, b int) int {
@@ -76,7 +69,7 @@ func intCmp(a int, b int) int {
 
 // creates an array with the points a line crosses
 func enumPositions(l line) (x []int, y []int) {
-	size := max(abs(l.x1-l.x2), abs(l.y1-l.y2)) // number of points
+	size := utils.IntMax(utils.IntAbs(l.x1-l.x2), utils.IntAbs(l.y1-l.y2)) // number of points
 	x = make([]int, size+1)
 	y = make([]int, size+1)
 	xIncr, yIncr := intCmp(l.x2, l.x1), intCmp(l.y2, l.y1)
@@ -133,16 +126,8 @@ func filterLines(lines []line, filter func(line) bool) []line {
 func maxCoords(lines []line) (int, int) {
 	var xmax, ymax int
 	for _, l := range lines {
-		xmax = max(xmax, max(l.x1, l.x2))
-		ymax = max(ymax, max(l.y1, l.y2))
+		xmax = utils.IntMax(xmax, l.x1, l.x2)
+		ymax = utils.IntMax(ymax, l.y1, l.y2)
 	}
 	return xmax, ymax
-}
-
-// absolute function for integers
-func abs(i int) int {
-	if i < 0 {
-		return -i
-	}
-	return i
 }
