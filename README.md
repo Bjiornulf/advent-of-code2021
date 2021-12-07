@@ -1,6 +1,6 @@
 # Advent of Code 2021
 
-I decided to solve this years advent of code in **GO** for my computer science class
+I decided to solve this years advent of code in **GO** for my computer science class. Other implementations can be found [here](https://github.com/mines-nancy/advent-of-code-2021)
 
 ## Journey
 
