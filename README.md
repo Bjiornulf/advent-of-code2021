@@ -25,4 +25,4 @@ Day 5 took me longer than the previous days. The idea was simpler, but I could g
 The first part could be trivialy solved without thinking and just implementing the problem the way it was presented. The second part required a bit more thinking as the array would grow exponentially, and eventualy lead to a crash. The result is a much more elegant solution.
 
 ### Day 7
-Extremely simple. However I'm still too slow at solving the puzzle (probably using GO doesn't help with speep)
+Extremely simple. However I'm still too slow at solving the puzzle (probably using GO doesn't help with speed)
