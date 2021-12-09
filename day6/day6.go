@@ -14,7 +14,8 @@ const (
 
 func main() {
 	fmt.Println("day6")
-	lantersFishes := importData()
+	input := utils.ReadLines("input")
+	lantersFishes := importData(input)
 	/* ---------- Puzzle 1 ---------- */
 	fmt.Println("Puzzle1:", sum(simulate(lantersFishes, days)))
 
@@ -32,12 +33,11 @@ func sum(a []int) int {
 }
 
 // import data as array containing the number of fishes in each state at the beginning
-func importData() []int {
-	line := utils.ReadLines("input")
-	numbers := strings.Split(line[0], ",")
-	state := make([]int, len(numbers))
+func importData(input []string) []int {
+	numbers := strings.Split(input[0], ",")
+	state := make([]int, 9)
 	// fill array
-	for i := range state {
+	for i := range numbers {
 		fish, err := strconv.Atoi(numbers[i])
 		if err != nil {
 			panic(err)

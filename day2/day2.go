@@ -9,12 +9,16 @@ import (
 
 func main() {
 	fmt.Println("day2")
-	puzzle1()
-	puzzle2()
+	input := utils.ReadLines("input")
+
+	/* ---------- Puzzle 1 ---------- */
+	fmt.Println("Puzzle1:", puzzle1(input))
+
+	/* ---------- Puzzle 2 ---------- */
+	fmt.Println("Puzzle2:", puzzle2(input))
 }
 
-func puzzle1() {
-	commands := utils.ReadLines("./input")
+func puzzle1(commands []string) int {
 	var depth, position int
 	for _, line := range commands {
 		command := strings.SplitN(line, " ", 2)
@@ -31,11 +35,10 @@ func puzzle1() {
 			depth -= val
 		}
 	}
-	fmt.Printf("puzzle1: %v\n", depth*position)
+	return depth*position
 }
 
-func puzzle2() {
-	commands := utils.ReadLines("./input")
+func puzzle2(commands []string) int {
 	var depth, position, aim int
 	for _, line := range commands {
 		command := strings.SplitN(line, " ", 2)
@@ -53,5 +56,5 @@ func puzzle2() {
 			aim -= val
 		}
 	}
-	fmt.Printf("puzzle2: %v\n", depth*position)
+	return depth*position
 }
