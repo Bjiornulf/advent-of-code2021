@@ -2,6 +2,12 @@
 
 I decided to solve this years advent of code in **GO** for my computer science class. Other implementations can be found [here](https://github.com/mines-nancy/advent-of-code-2021)
 
+## Tools
+
+`./create_day.sh <dayNum>` creates a directory for the day, and if `.session` file is present, tries to fetch the input from [](adventofcode.com). `.session` contains the session cookie, which is unique for every user.
+
+`./run_puzzles.sh` runs all the puzzles.
+
 ## Journey
 
 ### Day 1
