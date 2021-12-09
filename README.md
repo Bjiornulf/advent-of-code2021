@@ -4,7 +4,7 @@ I decided to solve this years advent of code in **GO** for my computer science c
 
 ## Tools
 
-`./create_day.sh <dayNum>` creates a directory for the day, and if `.session` file is present, tries to fetch the input from [](adventofcode.com). `.session` contains the session cookie, which is unique for every user.
+`./create_day.sh <dayNum>` creates a directory for the day, and if `.session` file is present, tries to fetch the input from [advent of code](adventofcode.com). `.session` contains the session cookie, which is unique for every user.
 
 `./run_puzzles.sh` runs all the puzzles.
 
