@@ -34,7 +34,7 @@ The first part could be trivialy solved without thinking and just implementing t
 Extremely simple. However I'm still too slow at solving the puzzle (probably using GO doesn't help with speed)
 
 ### Day 8
-First part was very simple (just some counting). But the second part was a bit more complicated. Finding the solution wasn't terribly difficult, but I haven't (as of the time I write this) found an elegant solution to the problem.
+First part was very simple (just some counting). But the second part was a bit more complicated. Finding the solution wasn't terribly difficult, but I haven't (as of the time I write this) found an elegant solution to the problem. After some thought, using bitfields (effectively a byte) to represent the presence of each of the 7 letters yields a much more elegant solution. I was also able to find better criteria to guess the numbers.
 
 ### Day 9
 At first glance, it seems a bit complicated, especialy when you have just woken up. But looking back, the solution seems pretty elegant, and the problem wasn't terribly hard.
