@@ -6,6 +6,28 @@ then
 fi
 mkdir "$dir_name"
 cd $dir_name
-printf "package main\n\nimport (\n\t\"fmt\"\n\t\"aoc2021/utils\"\n)\n\nfunc main() {\n\tfmt.Println(\"$dir_name\")\n}" > $dir_name.go
-touch input
+
+printf "package main
+
+import (
+	\"fmt\"
+	\"aoc2021/utils\"
+)
+
+func main() {
+	fmt.Println(\"$dir_name\")
+	input := utils.ReadLines(\"input\")
+
+	/* ---------- Puzzle 1 ---------- */
+
+	/* ---------- Puzzle 2 ---------- */
+}" > $dir_name.go
+
+if [ -f "../.session" ]
+then
+	curl --cookie "session=$(cat ../.session)" "https://adventofcode.com/2021/day/$1/input" > input
+else
+	touch input
+fi
+
 cd ..
