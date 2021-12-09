@@ -1,14 +1,14 @@
 package main
 
 import (
-	"fmt"
 	"aoc2021/utils"
+	"fmt"
 	"strings"
 )
 
 // converting the digits to bitmaps will allow us to compare them in constant time
 // this is hard otherwise, since the letters are not always in the same order
-var compareLookup map[rune]uint8 = map[rune]uint8 {
+var compareLookup map[rune]uint8 = map[rune]uint8{
 	'a': 0b00000001,
 	'b': 0b00000010,
 	'c': 0b00000100,
@@ -19,6 +19,7 @@ var compareLookup map[rune]uint8 = map[rune]uint8 {
 }
 
 const inputFile = "input"
+
 func main() {
 	fmt.Println("day8")
 	input := utils.ReadLines(inputFile)
@@ -30,7 +31,7 @@ func main() {
 	fmt.Println("Puzzle2:", puzzle2(input))
 }
 
-func importData(input []string) ([][]string, [][]string){
+func importData(input []string) ([][]string, [][]string) {
 	data := make([][]string, len(input))
 	reads := make([][]string, len(input))
 	for i := range input {
@@ -67,7 +68,7 @@ func deduceNumber(data, read []string) int {
 	for _, d := range data {
 		if len(d) == 5 {
 			if containsAllByte(d, sideFour) {
-				decode[byteRepr(d)] = 5	// 5 is the only digit that contains a part of 4 and has 5 segments
+				decode[byteRepr(d)] = 5 // 5 is the only digit that contains a part of 4 and has 5 segments
 			} else if containsAllByte(d, seven) {
 				decode[byteRepr(d)] = 3 // 3 is the only digit that contains 7 and has 5 segments
 			} else {
@@ -128,5 +129,5 @@ func byteRepr(s string) uint8 {
 }
 
 func containsAllByte(s string, b uint8) bool {
-	return (byteRepr(s) & b == b)
+	return (byteRepr(s)&b == b)
 }

@@ -20,7 +20,7 @@ var testInput []string = []string{
 func TestPuzzle1(t *testing.T) {
 	res := puzzle1(testInput)
 	const expected = 26
-	if (expected != res) {
+	if expected != res {
 		t.Errorf("Puzzle1: expected %v but got %v\n", expected, res)
 	}
 }
@@ -28,7 +28,7 @@ func TestPuzzle1(t *testing.T) {
 func TestPuzzle2(t *testing.T) {
 	res := puzzle2(testInput)
 	const expected = 61229
-	if (expected != res) {
+	if expected != res {
 		t.Errorf("Puzzle2: expected %v but got %v\n", expected, res)
 	}
 }
