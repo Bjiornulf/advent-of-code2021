@@ -5,23 +5,32 @@ import (
 	"aoc2021/utils"
 	"strings"
 )
+
+// converting the digits to bitmaps will allow us to compare them in constant time
+// this is hard otherwise, since the letters are not always in the same order
+var compareLookup map[rune]uint8 = map[rune]uint8 {
+	'a': 0b00000001,
+	'b': 0b00000010,
+	'c': 0b00000100,
+	'd': 0b00001000,
+	'e': 0b00010000,
+	'f': 0b00100000,
+	'g': 0b01000000,
+}
+
 const inputFile = "input"
 func main() {
 	fmt.Println("day8")
-	data, reads := importData()
-	_ = data
-	fmt.Println("Puzzle1:", countUniques(reads))
-	puz2 := 0
-	for i := range reads {
-		puz2 += deduceNumber(data[i], reads[i])
-		fmt.Println(reads[i])
-		fmt.Println(deduceNumber(data[i], reads[i]))
-	}
-	fmt.Println(puz2)
+	input := utils.ReadLines(inputFile)
+
+	/* ---------- Puzzle 1 ---------- */
+	fmt.Println("Puzzle1:", puzzle1(input))
+
+	/* ---------- Puzzle 2 ---------- */
+	fmt.Println("Puzzle2:", puzzle2(input))
 }
 
-func importData() ([][]string, [][]string){
-	input := utils.ReadLines(inputFile)	
+func importData(input []string) ([][]string, [][]string){
 	data := make([][]string, len(input))
 	reads := make([][]string, len(input))
 	for i := range input {
@@ -32,88 +41,62 @@ func importData() ([][]string, [][]string){
 	return data, reads
 }
 
+// deduce the number encoded on a line
 func deduceNumber(data, read []string) int {
-	decode := make(map[string]int)
-	var one, three, four, seven, eight string
-	_, _ = seven, eight
+	decode := make(map[uint8]int)
+	var one, four, seven uint8
+	// solve the trivial cases
 	for _, d := range data {
 		if len(d) == 2 {
-			one = d
-			decode[d] = 1
+			one = byteRepr(d)
+			decode[byteRepr(d)] = 1
 		} else if len(d) == 3 {
-			seven = d
-			decode[d] = 7
+			seven = byteRepr(d)
+			decode[byteRepr(d)] = 7
 		} else if len(d) == 4 {
-			four = d
-			decode[d] = 4
+			four = byteRepr(d)
+			decode[byteRepr(d)] = 4
 		} else if len(d) == 7 {
-			eight = d
-			decode[d] = 8
+			decode[byteRepr(d)] = 8
 		}
 	}
-	// var top string
-	// for _, l7 := range seven {
-	// 	found := false
-	// 	for _, l1 := range one {
-	// 		if l1 == l7 {
-	// 			found = true
-	// 		}
-	// 	}
-	// 	if !found {
-	// 		top = fmt.Sprintf("%c", l7)
-	// 	}
-	// }
 
-	var sideFour string
-	letters := []rune{}
-	for _, l4 := range four {
-		found := false
-		for _, l1 := range one {
-			if l1 == l4 {
-				found = true
+	// this is the part of the 4 that is not in common with the 1
+	sideFour := four & (^one) // ^ = bitwise not : ^0b0101 = 0b1010
+
+	for _, d := range data {
+		if len(d) == 5 {
+			if containsAllByte(d, sideFour) {
+				decode[byteRepr(d)] = 5	// 5 is the only digit that contains a part of 4 and has 5 segments
+			} else if containsAllByte(d, seven) {
+				decode[byteRepr(d)] = 3 // 3 is the only digit that contains 7 and has 5 segments
+			} else {
+				decode[byteRepr(d)] = 2 // 2 is the only other digit that has 5 segments
 			}
-		}
-		if !found {
-			letters = append(letters, l4)
-		}
-	}
-	sideFour = fmt.Sprintf("%c%c", letters[0], letters[1])
-	for _, d := range data {
-		if len(d) == 6 && !containsAll(d, one) {
-			decode[d] = 6
-		} else if len(d) == 5 && containsAll(d, sideFour) {
-			decode[d] = 5
-		} else if len(d) == 5 && containsAll(d, one) {
-			decode[d] = 3
-			three = d
-		} else if len(d) == 5 {
-			decode[d] = 2
-		}
-	}
-	for _, d := range data {
-		if len(d) == 6 && containsAll(d, three) {
-			decode[d] = 9
-		} else {
-			_, ok := decode[d]
-			if len(d) == 6 && !ok {
-				decode[d] = 0
+		} else if len(d) == 6 {
+			if containsAllByte(d, four) {
+				decode[byteRepr(d)] = 9 // 9 is the only digit that contains 4 and has 6 segments
+			} else if containsAllByte(d, seven) {
+				decode[byteRepr(d)] = 0 // 0 is the only digit that does not contain 4 but contains 7 and has 6 segments
+			} else {
+				decode[byteRepr(d)] = 6 // 6 is the only other digit that has 6 segments
 			}
 		}
 	}
+
+	// using hoerner method to calculate a base10 representation of the numbers at the end
 	res := 0
 	for _, r := range read {
-		for k, v := range decode {
-			if (equalByRune(k, r)) {
-				res *= 10
-				res += v
-			}
-		}
+		res *= 10
+		res += decode[byteRepr(r)]
 	}
 
 	return res
 }
 
-func countUniques(reads [][]string) int {
+// Solution to puzzle1 : count the number of digits we are certain of
+func puzzle1(input []string) int {
+	_, reads := importData(input)
 	var count int
 	for i := range reads {
 		for j := range reads[i] {
@@ -125,23 +108,25 @@ func countUniques(reads [][]string) int {
 	return count
 }
 
-func containsAll(s, sub string) bool {
-	res := true
-	for _, r := range sub {
-		res = res && strings.ContainsRune(s, r)
+func puzzle2(input []string) int {
+	data, reads := importData(input)
+	_ = data
+	res := 0
+	for i := range reads {
+		res += deduceNumber(data[i], reads[i])
 	}
 	return res
 }
 
-func equalByRune(s, cmp string) bool {
-	if len(s) != len(cmp) {
-		return false
+// Convert string representing a digit into a byte for easier comparaison
+func byteRepr(s string) uint8 {
+	res := uint8(0)
+	for _, l := range s {
+		res |= compareLookup[l]
 	}
-	found := 0
-	for _, c := range cmp {
-		if strings.ContainsRune(s, c) {
-			found++
-		}
-	}
-	return found == len(s)
+	return res
+}
+
+func containsAllByte(s string, b uint8) bool {
+	return (byteRepr(s) & b == b)
 }
