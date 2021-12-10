@@ -39,17 +39,6 @@ type Coord struct {
 	i, j int
 }
 
-type CoordMap map[Coord]bool
-
-func (cm *CoordMap) Contains(c Coord) bool {
-	v, ok := (*cm)[c]
-	return ok && v
-}
-
-func (cm *CoordMap) Add(c Coord) {
-	(*cm)[c] = true
-}
-
 /* ---------- Functions ---------- */
 // import the data for the day
 func importData(input []string) [][]int {
@@ -94,31 +83,29 @@ func lowLevels(mat [][]int) ([]int, []Coord) {
 	return res, coords
 }
 
-func NewCoordMap() *CoordMap {
-	c := new(CoordMap)
-	*c = make(map[Coord]bool)
-	return c
-}
-
 func bassinsSizes(mat [][]int) []int {
 	lows, coords := lowLevels(mat)
+	explored := make([][]bool, len(mat))
+	for i := range explored {
+		explored[i] = make([]bool, len(mat[i]))
+	}
 	res := make([]int, 0)
 	for i := range lows {
 		size := 0
-		explored := NewCoordMap()
 		recExplore(mat, coords[i], explored, &size)
 		res = append(res, size)
 	}
 	return res
 }
 
-func recExplore(mat [][]int, start Coord, explored *CoordMap, size *int) {
+func recExplore(mat [][]int, start Coord, explored [][]bool, size *int) {
+	// An imperative alternative has been tested, but is ~4 times slower
 	i, j := start.i, start.j
-	if explored.Contains(start) {
-		return // this has been explored
-	}
 	if i < 0 || i >= len(mat) || j < 0 || j >= len(mat[i]) {
 		return // this is not explorable (outisde of matrix bounds)
+	}
+	if explored[i][j] {
+		return // this has been explored
 	}
 	if mat[i][j] == 9 {
 		return // 9 is never in a basin
@@ -127,7 +114,7 @@ func recExplore(mat [][]int, start Coord, explored *CoordMap, size *int) {
 	// Every point that can be reached by exploring the neighbours only is in the same bassin
 
 	/* ---------- Recursive exploration of the neightbours ---------- */
-	explored.Add(start)
+	explored[i][j] = true
 	(*size)++
 	recExplore(mat, Coord{i: i - 1, j: j}, explored, size)
 	recExplore(mat, Coord{i: i + 1, j: j}, explored, size)
