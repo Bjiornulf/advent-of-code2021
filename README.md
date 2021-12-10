@@ -39,3 +39,6 @@ After some thought, using bitfields (effectively a byte) to represent the each d
 
 ### Day 9
 At first glance, it seems a bit complicated, especialy when you have just woken up. But looking back, the solution seems pretty elegant, and the problem wasn't terribly hard.
+
+### Day 10
+We are back at getting simple problems. Though I had a little trouble working with strings in GO, the rune thing is still a bit odd to me. I also forgot to wake up today...
