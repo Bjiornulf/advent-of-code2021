@@ -4,6 +4,7 @@ import (
 	"aoc2021/utils"
 	"fmt"
 	"strings"
+	"time"
 )
 
 func main() {
@@ -11,10 +12,14 @@ func main() {
 	input := utils.ReadLines("testInput")
 
 	/* ---------- Puzzle 1 ---------- */
+	start := time.Now()
 	fmt.Println("Puzzle1", puzzle1(input))
+	fmt.Println(time.Since(start))
 
 	/* ---------- Puzzle 2 ---------- */
+	start = time.Now()
 	fmt.Println("Puzzle2", puzzle2(input))
+	fmt.Println(time.Since(start))
 }
 
 type Counter struct {
