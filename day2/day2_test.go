@@ -1,9 +1,11 @@
 package main
 
 import (
+	"aoc2021/utils"
 	"testing"
 )
 
+var input []string = utils.ReadLines("input")
 var testInput []string = []string{
 	"forward 5",
 	"down 5",
@@ -26,5 +28,17 @@ func TestPuzzle2(t *testing.T) {
 	const expected = 900
 	if res != expected {
 		t.Errorf("Expected %v but got %v\n", expected, res)
+	}
+}
+
+func BenchmarkPuzzle1(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		puzzle1(input)
+	}
+}
+
+func BenchmarkPuzzle2(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		puzzle2(input)
 	}
 }
