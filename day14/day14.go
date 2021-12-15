@@ -9,7 +9,7 @@ import (
 
 func main() {
 	fmt.Println("day14")
-	input := utils.ReadLines("testInput")
+	input := utils.ReadLines("input")
 
 	/* ---------- Puzzle 1 ---------- */
 	start := time.Now()
