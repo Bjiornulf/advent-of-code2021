@@ -2,9 +2,11 @@ package main
 
 import (
 	"testing"
+	"aoc2021/utils"
 )
 
-var testData = []int{
+var input = utils.ReadInts("./input")
+var testInput = []int{
 	199,
 	200,
 	208,
@@ -18,7 +20,7 @@ var testData = []int{
 }
 
 func TestPuzzle1(t *testing.T) {
-	res := countIncreasing(testData, 1)
+	res := countIncreasing(testInput, 1)
 	const expected int = 7
 	if expected != res {
 		t.Errorf("Expected %v but got %v\n", expected, res)
@@ -26,9 +28,22 @@ func TestPuzzle1(t *testing.T) {
 }
 
 func TestPuzzle2(t *testing.T) {
-	res := countIncreasing(testData, 3)
+	res := countIncreasing(testInput, 3)
 	const expected int = 5
 	if expected != res {
 		t.Errorf("Expected %v but got %v\n", expected, res)
+	}
+}
+
+
+func BenchmarkPuzzle1(b *testing.B) {
+	for i:=0; i < b.N; i++ {
+		countIncreasing(input, 1)
+	}
+}
+
+func BenchmarkPuzzle2(b *testing.B) {
+	for i:=0; i < b.N; i++ {
+		countIncreasing(input, 3)
 	}
 }
