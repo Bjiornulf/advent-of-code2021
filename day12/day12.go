@@ -1,9 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"aoc2021/utils"
+	"fmt"
 	"strings"
+	"time"
 )
 
 const (
@@ -12,13 +13,18 @@ const (
 
 func main() {
 	fmt.Println("day12")
-	input := utils.ReadLines("input")
+	var input []string
+	input = utils.ReadLines("input")
 
 	/* ---------- Puzzle 1 ---------- */
+	start := time.Now()
 	fmt.Println("Puzzle1:", puzzle1(input))
+	fmt.Println(time.Since(start))
 
 	/* ---------- Puzzle 2 ---------- */
+	start = time.Now()
 	fmt.Println("Puzzle2:", puzzle2(input))
+	fmt.Println(time.Since(start))
 }
 
 type path []string
