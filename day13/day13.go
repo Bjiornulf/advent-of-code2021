@@ -67,20 +67,19 @@ func importData(input []string) ([][]bool, []int) {
 }
 
 func parseInstruction(line string) int {
-	v := strings.SplitN(line, " ", 3)
-	a := strings.SplitN(v[2], "=", 2)
-	if a[0] == "y" {
-		y, _ := strconv.Atoi(a[1])
-		return -y
+	instruction := strings.SplitN(strings.SplitN(line, " ", 3)[2], "=", 2)
+	fold, _ := strconv.Atoi(instruction[1])
+	switch instruction[0] {
+	case "y":
+		return -fold
+	case "x":
+		return fold
+	default:
+		return 0
 	}
-	if a[0] == "x" {
-		x, _ := strconv.Atoi(a[1])
-		return x
-	}
-	return 0
 }
 
-func isInside(x, y int, paper [][]bool) bool {
+func isInside(paper [][]bool, x, y int) bool {
 	return x >= 0 && x < len(paper) && y >= 0 && y < len(paper[x])
 }
 
@@ -89,7 +88,7 @@ func fold(paper [][]bool, fold int, xLen, yLen int) (int, int) {
 		for x := 0; x < xLen; x++ {
 			for y := 0; y < yLen; y++ {
 				if paper[x][y] {
-					if isInside(x, -y-2*fold, paper) {
+					if isInside(paper, x, -y-2*fold) {
 						paper[x][-y-2*fold] = true
 					}
 				}
@@ -101,7 +100,7 @@ func fold(paper [][]bool, fold int, xLen, yLen int) (int, int) {
 		for x := 0; x < xLen; x++ {
 			for y := 0; y < yLen; y++ {
 				if paper[x][y] {
-					if isInside(-x+2*fold, y, paper) {
+					if isInside(paper, -x+2*fold, y) {
 						paper[-x+2*fold][y] = true
 					}
 				}
@@ -132,19 +131,17 @@ func puzzle2(input []string) string {
 	for _, i := range foldInstructions {
 		xLen, yLen = fold(paper, i, xLen, yLen)
 	}
-	res := "\n"
+	var res strings.Builder
+	res.WriteString("\n")
 	for y := 0; y < yLen; y++ {
 		for x := 0; x < xLen; x++ {
 			if paper[x][y] {
-				// fmt.Printf("\u2593")
-				res += "\u2593"
+				res.WriteRune('\u2598')
 			} else {
-				// fmt.Printf(" ")
-				res += " "
+				res.WriteRune(' ')
 			}
 		}
-		// fmt.Println()
-		res += "\n"
+		res.WriteRune('\n')
 	}
-	return res[:len(res)-1]
+	return res.String()[:res.Len()-1]
 }
