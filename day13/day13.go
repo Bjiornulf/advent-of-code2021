@@ -1,10 +1,10 @@
 package main
 
 import (
-	"fmt"
 	"aoc2021/utils"
-	"strings"
+	"fmt"
 	"strconv"
+	"strings"
 	"time"
 )
 
@@ -39,7 +39,7 @@ func getMax(input []string) (int, int) {
 		xMax = utils.IntMax(x, xMax)
 		yMax = utils.IntMax(y, yMax)
 	}
-	return xMax+1, yMax+1
+	return xMax + 1, yMax + 1
 }
 
 func importData(input []string) ([][]bool, []int) {

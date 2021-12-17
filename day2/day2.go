@@ -40,7 +40,7 @@ func puzzle1(commands []string) int {
 			depth -= val
 		}
 	}
-	return depth*position
+	return depth * position
 }
 
 func puzzle2(commands []string) int {
@@ -61,5 +61,5 @@ func puzzle2(commands []string) int {
 			aim -= val
 		}
 	}
-	return depth*position
+	return depth * position
 }

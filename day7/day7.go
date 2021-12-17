@@ -1,8 +1,8 @@
 package main
 
 import (
-	"fmt"
 	"aoc2021/utils"
+	"fmt"
 )
 
 func main() {
@@ -10,11 +10,11 @@ func main() {
 	input := utils.ReadLines("input")
 	crabs := utils.ReadIntsList(input[0], ",")
 	// cost to target when each step costs 1
-	fuelFuction1 := func(c, t int) int {return utils.IntAbs(c-t)}
+	fuelFuction1 := func(c, t int) int { return utils.IntAbs(c - t) }
 	// cost to target when each step increasingly costs 1 more : 1, 2, 3...
 	fuelFuction2 := func(c, t int) int {
-		n := utils.IntAbs(c-t)
-		return n*(n+1) / 2
+		n := utils.IntAbs(c - t)
+		return n * (n + 1) / 2
 	}
 
 	/* ---------- Puzzle 1 ---------- */

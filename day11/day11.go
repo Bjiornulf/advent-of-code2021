@@ -65,13 +65,13 @@ func isInside(data [][]int, point Coord) bool {
 	return point.i >= 0 && point.i < len(data) && point.j >= 0 && point.j < len(data[point.i])
 }
 
-func getNeighbours(data [][]int, point Coord) ([]Coord) {
+func getNeighbours(data [][]int, point Coord) []Coord {
 	res := make([]Coord, 9)
 	count := 0
 	for i := -1; i < 2; i++ {
 		for j := -1; j < 2; j++ {
-			if isInside(data, Coord{point.i+i, point.j+j}) {
-				res[count] = Coord{point.i+i, point.j+j}
+			if isInside(data, Coord{point.i + i, point.j + j}) {
+				res[count] = Coord{point.i + i, point.j + j}
 				count++
 			}
 		}
@@ -82,7 +82,7 @@ func getNeighbours(data [][]int, point Coord) ([]Coord) {
 func exploreNeighbours(data [][]int, start Coord) {
 	for i := -1; i < 2; i++ {
 		for j := -1; j < 2; j++ {
-			next := Coord{start.i+i, start.j+j}
+			next := Coord{start.i + i, start.j + j}
 			if isInside(data, next) && data[next.i][next.j] != 0 {
 				recExplore(data, next)
 			}
@@ -135,7 +135,7 @@ func incrementNeighbours(data [][]int, point Coord) bool {
 	incremented := false
 	for i := -1; i < 2; i++ {
 		for j := -1; j < 2; j++ {
-			next := Coord{point.i+i, point.j+j}
+			next := Coord{point.i + i, point.j + j}
 			if isInside(data, next) && data[next.i][next.j] != 0 {
 				data[next.i][next.j]++
 				incremented = true
@@ -167,7 +167,7 @@ func flash(data [][]int) int {
 func simulateStep(data [][]int) int {
 	for i := range data {
 		for j := range data[i] {
-			data[i][j]++;
+			data[i][j]++
 		}
 	}
 	return flash(data)

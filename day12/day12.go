@@ -63,7 +63,7 @@ func countPaths(graph graph, allowed_repetition int) int {
 func recCountPaths(graph graph, p path, next int, visited map[string]int, count *int, allowed_repetition int, smallExploredMultipleTimes bool) {
 	accessible := graph[p[next-1]] // the nodes that are accessible as continuation of the path
 	for i := range accessible {
-		foundExploredMultipleTimes := false 
+		foundExploredMultipleTimes := false
 		if accessible[i] == "start" {
 			continue
 		}
@@ -71,14 +71,14 @@ func recCountPaths(graph graph, p path, next int, visited map[string]int, count 
 			*count++
 			continue
 		}
-		if isLower(accessible[i]) && visited[accessible[i]] > 0 { 
+		if isLower(accessible[i]) && visited[accessible[i]] > 0 {
 			// if smallExploredMultipleTimes && visited[accessible[i]] <= 1 || visited[accessible[i]] >= allowed_repetition { // can work if we can repeat more than 2 times lowercase nodes
 			if smallExploredMultipleTimes || visited[accessible[i]] >= allowed_repetition { // works with allowed_repetition in {1, 2} only. But in those cases faster
 				continue
 			}
 			foundExploredMultipleTimes = true // we have to set smallExploredMultipleTimes this way, so that we can reset it for the next iterator of the loop
 		}
-		p[next] = accessible[i] // append to path
+		p[next] = accessible[i]  // append to path
 		visited[accessible[i]]++ // keep track of how many times this node has been visited (only useful for lowercase nodes)
 		recCountPaths(graph, p, next+1, visited, count, allowed_repetition, smallExploredMultipleTimes || foundExploredMultipleTimes)
 		visited[accessible[i]]--

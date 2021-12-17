@@ -28,16 +28,16 @@ type Counter struct {
 }
 type Steps map[string]string
 type Polymer struct {
-	repr map[string]*Counter
+	repr  map[string]*Counter
 	steps Steps
 	count map[string]int
 }
 
-func (c *Counter)incr(i int) {
+func (c *Counter) incr(i int) {
 	c.acc += i
 }
 
-func (c *Counter)reset() {
+func (c *Counter) reset() {
 	c.val = c.acc
 	c.acc = 0
 }
@@ -69,25 +69,25 @@ func newPolymer(poly string, steps Steps) *Polymer {
 	return res
 }
 
-func (p *Polymer)incr(literal string, i int) {
+func (p *Polymer) incr(literal string, i int) {
 	if _, ok := p.repr[literal]; !ok {
 		p.repr[literal] = new(Counter)
 	}
 	p.repr[literal].incr(i)
 }
 
-func (p *Polymer)get(literal string) int {
+func (p *Polymer) get(literal string) int {
 	return p.repr[literal].val
 }
 
-func (p *Polymer)step() {
+func (p *Polymer) step() {
 	keys := make([]string, 0)
 	for k := range p.repr {
 		keys = append(keys, k)
 	}
 	for _, k := range keys {
-		l1 := k[:1]+p.steps[k]
-		l2 := p.steps[k]+k[1:]
+		l1 := k[:1] + p.steps[k]
+		l2 := p.steps[k] + k[1:]
 		v := p.get(k)
 
 		p.incr(l1, v)
@@ -99,7 +99,7 @@ func (p *Polymer)step() {
 	}
 }
 
-func (p *Polymer)getMinMax() (int, int) {
+func (p *Polymer) getMinMax() (int, int) {
 	max := 0
 	for _, v := range p.count {
 		max = utils.IntMax(max, v)

@@ -49,7 +49,7 @@ func processLine(s string) ([]rune, rune) {
 			open = append(open, l)
 			continue
 		}
-		if corresponding[l] != open[len(open) - 1] {
+		if corresponding[l] != open[len(open)-1] {
 			return []rune{}, l
 		}
 		open = open[:len(open)-1]
@@ -95,5 +95,5 @@ func puzzle2(input []string) int {
 	}
 	// we want the median. There are more efficient ways to obtain it, but this is the fastest to implement
 	sort.Ints(res)
-	return res[len(res) / 2]
+	return res[len(res)/2]
 }

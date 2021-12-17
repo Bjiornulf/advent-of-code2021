@@ -1,8 +1,8 @@
 package main
 
 import (
-	"testing"
 	"aoc2021/utils"
+	"testing"
 )
 
 var testInput1 = []string{
@@ -98,7 +98,6 @@ func TestPuzzle2_3(t *testing.T) {
 		t.Errorf("Puzzle2 big input: expected %v but got %v\n", expected, res)
 	}
 }
-
 
 func BenchmarkPuzzle1(b *testing.B) {
 	for i := 0; i < b.N; i++ {

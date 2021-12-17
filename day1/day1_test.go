@@ -1,8 +1,8 @@
 package main
 
 import (
-	"testing"
 	"aoc2021/utils"
+	"testing"
 )
 
 var input = utils.ReadInts("./input")
@@ -35,15 +35,14 @@ func TestPuzzle2(t *testing.T) {
 	}
 }
 
-
 func BenchmarkPuzzle1(b *testing.B) {
-	for i:=0; i < b.N; i++ {
+	for i := 0; i < b.N; i++ {
 		countIncreasing(input, 1)
 	}
 }
 
 func BenchmarkPuzzle2(b *testing.B) {
-	for i:=0; i < b.N; i++ {
+	for i := 0; i < b.N; i++ {
 		countIncreasing(input, 3)
 	}
 }

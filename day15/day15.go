@@ -91,6 +91,7 @@ func importData2(input []string) [][]uint8 {
 		}
 		return v
 	}
+	// extend the initial matrix 5 times in each direction following given algorithm
 	for i := range input {
 		for j := range input[i] {
 			for n := 0; n < 5; n++ {
@@ -132,6 +133,7 @@ func updateNeighbours(graph [][]uint8, visited [][]bool, start *Coord, lengths [
 // find the shortest path in a matrix graph using the Dijstra algorithm.
 func shortestPath(graph [][]uint8, start Coord, end Coord) int {
 	length := make([][]int, len(graph))
+	// init length
 	for i := range length {
 		length[i] = make([]int, len(graph[i]))
 		for j := range length[i] {

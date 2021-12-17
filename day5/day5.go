@@ -56,7 +56,6 @@ func fillGrid(grid *[][]int, lines []line) {
 	}
 }
 
-
 // return 1 if a > b; 0 if a == b; -1 if a < b
 func intCmp(a int, b int) int {
 	if a < b {
