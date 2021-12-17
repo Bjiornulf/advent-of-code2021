@@ -80,23 +80,23 @@ func importData(input []string) [][]uint8 {
 	return res
 }
 
-func importData2(input []string) [][]uint8 {
-	res := make([][]uint8, len(input)*5)
+func importExtend(input []string, n int) [][]uint8 {
+	res := make([][]uint8, len(input)*n)
 	for i := range res {
-		res[i] = make([]uint8, len(input[0])*5)
+		res[i] = make([]uint8, len(input[0])*n)
 	}
-	val := func(v int) int {
+	val := func(v int) uint8 {
 		if v == 0 {
 			return 9
 		}
-		return v
+		return uint8(v)
 	}
 	// extend the initial matrix 5 times in each direction following given algorithm
 	for i := range input {
 		for j := range input[i] {
-			for n := 0; n < 5; n++ {
-				for m := 0; m < 5; m++ {
-					res[i+len(input)*m][j+len(input[i])*n] = uint8(val((int(input[i][j]-'0') + m + n) % 9))
+			for k := 0; k < n; k++ {
+				for l := 0; l < n; l++ {
+					res[i+len(input)*l][j+len(input[i])*k] = val((int(input[i][j]-'0') + k + l) % 9)
 				}
 
 			}
@@ -170,6 +170,6 @@ func puzzle1(input []string) int {
 }
 
 func puzzle2(input []string) int {
-	graph := importData2(input)
+	graph := importExtend(input, 5)
 	return shortestPath(graph, Coord{0, 0}, Coord{len(graph) - 1, len(graph[0]) - 1})
 }
