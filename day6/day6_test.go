@@ -5,7 +5,6 @@ import (
 	"testing"
 )
 
-
 func BenchmarkPart2(b *testing.B) {
 	for i := 0; i < b.N; i++ {
 		sum(simulate(importData(utils.ReadLines("input")), days2))
@@ -34,7 +33,7 @@ func TestSim18(t *testing.T) {
 	testData := importData([]string{testInput})
 	res := sum(simulate(testData, 18))
 	const expected = 26
-	if (res != expected) {
+	if res != expected {
 		t.Errorf("Simulating 18 days: expected %d but got %d\n", expected, res)
 	}
 }
@@ -43,7 +42,7 @@ func TestSim80(t *testing.T) {
 	testData := importData([]string{testInput})
 	res := sum(simulate(testData, 80))
 	const expected = 5934
-	if (res != expected) {
+	if res != expected {
 		t.Errorf("Simulating 18 days: expected %d but got %d\n", expected, res)
 	}
 }
@@ -52,7 +51,7 @@ func TestSim256(t *testing.T) {
 	testData := importData([]string{testInput})
 	res := sum(simulate(testData, 256))
 	const expected = 26984457539
-	if (res != expected) {
+	if res != expected {
 		t.Errorf("Simulating 18 days: expected %d but got %d\n", expected, res)
 	}
 }
