@@ -15,12 +15,12 @@ const (
 func main() {
 	fmt.Println("day6")
 	input := utils.ReadLines("input")
-	lantersFishes := importData(input)
+
 	/* ---------- Puzzle 1 ---------- */
-	fmt.Println("Puzzle1:", sum(simulate(lantersFishes, days)))
+	fmt.Println("Puzzle1:", puzzle1(input))
 
 	/* ---------- Puzzle 2 ---------- */
-	fmt.Println("Puzzle2:", sum(simulate(lantersFishes, days2)))
+	fmt.Println("Puzzle2:", puzzle2(input))
 }
 
 // sum of int array
@@ -51,16 +51,21 @@ func importData(input []string) []int {
 // simulates the evolution of the population
 // returns an array of the number of fishes at each state, does not change the first array
 func simulate(state []int, days int) []int {
-	res := make([]int, 9)
-	copy(res, state) // avoid changing initial array
 	for i := 0; i < days; i++ {
-		day0 := res[0]
-		for j := 1; j < 9; j++ {
-			res[j-1] = res[j]
-		}
-		res[8] = day0
-		res[6] += day0
-
+		state = append(state[1:], state[0]) // rotate the array left
+		state[6] += state[8]
 	}
-	return res
+	return state
+}
+
+func puzzle1(input []string) int {
+	state := importData(input)
+	state = simulate(state, days)
+	return sum(state)
+}
+
+func puzzle2(input []string) int {
+	state := importData(input)
+	state = simulate(state, days2)
+	return sum(state)
 }
