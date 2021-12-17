@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
-	"unicode"
 	"time"
+	"unicode"
 )
 
 func main() {
@@ -29,13 +29,14 @@ type Vector struct {
 }
 
 var start = Vector{0, 0}
-func min (a, b int) int {
+
+func min(a, b int) int {
 	if a < b {
 		return a
 	}
 	return b
 }
-func max (a, b int) int {
+func max(a, b int) int {
 	if a > b {
 		return a
 	}
@@ -44,7 +45,7 @@ func max (a, b int) int {
 
 func importData(input []string) (Vector, Vector) {
 	var x1, y1, x2, y2 int
-	vals := strings.FieldsFunc(input[0], func (c rune) bool {
+	vals := strings.FieldsFunc(input[0], func(c rune) bool {
 		return !unicode.IsNumber(c) && c != '-'
 	})
 	x1, _ = strconv.Atoi(vals[0])
@@ -55,18 +56,16 @@ func importData(input []string) (Vector, Vector) {
 }
 
 func isInside(point, targetStart, targetEnd Vector) bool {
-	return (
-		point.x >= targetStart.x &&
+	return (point.x >= targetStart.x &&
 		point.y >= targetStart.y &&
 		point.x <= targetEnd.x &&
-		point.y <= targetEnd.y )
+		point.y <= targetEnd.y)
 }
 
 func canLand(point, velocity, targetStart, targetEnd Vector) bool {
-	return !(
-		point.x < targetStart.x && velocity.x <= 0 ||
+	return !(point.x < targetStart.x && velocity.x <= 0 ||
 		point.y < targetStart.y && velocity.y <= 0 ||
-		point.x > targetEnd.x && velocity.x >= 0 )
+		point.x > targetEnd.x && velocity.x >= 0)
 }
 
 func simulate(start, velocity, targetStart, targetEnd Vector) (int, bool) {
