@@ -55,6 +55,7 @@ func importData(input []string) (Vector, Vector) {
 	return Vector{min(x1, x2), min(y1, y2)}, Vector{max(x2, x1), max(y2, y1)}
 }
 
+// is the point inside the target area
 func isInside(point, targetStart, targetEnd Vector) bool {
 	return (point.x >= targetStart.x &&
 		point.y >= targetStart.y &&
@@ -62,18 +63,18 @@ func isInside(point, targetStart, targetEnd Vector) bool {
 		point.y <= targetEnd.y)
 }
 
+// is there a chance that the projectile reaches the target
 func canLand(point, velocity, targetStart, targetEnd Vector) bool {
 	return !(point.x < targetStart.x && velocity.x <= 0 ||
 		point.y < targetStart.y && velocity.y <= 0 ||
 		point.x > targetEnd.x && velocity.x >= 0)
 }
 
-func simulate(start, velocity, targetStart, targetEnd Vector) (int, bool) {
-	maxY := start.y
+// simulate a throw
+func simulate(start, velocity, targetStart, targetEnd Vector) bool {
 	for !isInside(start, targetStart, targetEnd) && canLand(start, velocity, targetStart, targetEnd) {
 		start.x += velocity.x
 		start.y += velocity.y
-		maxY = max(start.y, maxY)
 		if velocity.x > 0 {
 			velocity.x--
 		} else if velocity.x < 0 {
@@ -81,17 +82,21 @@ func simulate(start, velocity, targetStart, targetEnd Vector) (int, bool) {
 		}
 		velocity.y--
 	}
-	return maxY, isInside(start, targetStart, targetEnd)
+	return isInside(start, targetStart, targetEnd)
 }
 
 func puzzle1(input []string) int {
 	// supposing the target is always under the start position
+	// at T we want the projectile to be at the lowest point of the target area
+	// and at T-1 the projectile is at y=0
+	// this means the highest point reached can be calculated with the formula below in constant time
 	targetStart, _ := importData(input)
 	return -targetStart.y * (-targetStart.y - 1) / 2
 }
 
 func puzzle2(input []string) int {
 	targetStart, targetEnd := importData(input)
+	// narrowing down possible starting velocity values that might reach the target area
 	xMin := min(start.x, targetStart.x)
 	xMax := max(start.x, targetEnd.x)
 	yMin := min(start.y, targetStart.y)
@@ -99,8 +104,7 @@ func puzzle2(input []string) int {
 	res := 0
 	for x := xMin; x <= xMax; x++ {
 		for y := yMin; y < yMax; y++ {
-			_, success := simulate(start, Vector{x, y}, targetStart, targetEnd)
-			if success {
+			if simulate(start, Vector{x, y}, targetStart, targetEnd) {
 				res++
 			}
 		}
