@@ -72,7 +72,7 @@ func canLand(point, velocity, targetStart, targetEnd Vector) bool {
 
 // simulate a throw
 func simulate(start, velocity, targetStart, targetEnd Vector) bool {
-	for !isInside(start, targetStart, targetEnd) && canLand(start, velocity, targetStart, targetEnd) {
+	for canLand(start, velocity, targetStart, targetEnd) {
 		start.x += velocity.x
 		start.y += velocity.y
 		if velocity.x > 0 {
@@ -81,8 +81,11 @@ func simulate(start, velocity, targetStart, targetEnd Vector) bool {
 			velocity.x++
 		}
 		velocity.y--
+		if isInside(start, targetStart, targetEnd) {
+			return true
+		}
 	}
-	return isInside(start, targetStart, targetEnd)
+	return false
 }
 
 func puzzle1(input []string) int {
