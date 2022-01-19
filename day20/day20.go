@@ -29,13 +29,13 @@ func main() {
 
 func importData(input []string, padding int) (image, string) {
 	enhancements := input[0]
-	image := make(image, len(input) - 2 + padding*2)
+	image := make(image, len(input)-2+padding*2)
 	for i := range image {
-		image[i] = make([]pixel, len(input[2]) + padding*2)
+		image[i] = make([]pixel, len(input[2])+padding*2)
 	}
 	for i := 2; i < len(input); i++ {
 		for j := 0; j < len(input[i]); j++ {
-			image[i-2+padding][j+padding].curr = input[i][j]=='#'
+			image[i-2+padding][j+padding].curr = input[i][j] == '#'
 		}
 	}
 	return image, enhancements
@@ -83,11 +83,11 @@ func countLit(image image, yStart, xStart int) int {
 	return count
 }
 
-func (image image)String() string {
+func (image image) String() string {
 	var buf strings.Builder
 	for i := range image {
 		for j := range image[i] {
-			switch (image[i][j].curr) {
+			switch image[i][j].curr {
 			case true:
 				buf.WriteRune('#')
 			case false:
